@@ -1,0 +1,36 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres_dockerizing
+    ports:
+      - 5432:5432
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: postgres123
+    volumes:
+      - database_dockerizing:/var/lib/postgresql/data
+      - ./dbshell:/docker-entrypoint-initdb.d/
+    networks:
+      - fullstack
+  api:
+    container_name: api_dockerizing
+    build: .
+    ports:
+      - 8080:8080
+    restart: always
+    volumes:
+      - api_volume:/usr/src/app/
+    depends_on:
+      - postgres
+    networks:
+      - fullstack
+
+volumes:
+  database_dockerizing:
+  api_volume:
+
+networks:
+  fullstack:
+    driver: bridge
