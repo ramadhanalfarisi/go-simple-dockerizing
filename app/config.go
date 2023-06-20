@@ -5,4 +5,5 @@ var (
 	PASSDB string = "postgres123"
 	HOSTDB string = "postgres"
 	DBNAME string = "mangastore"
+	DBNAME string = "222"
 )
