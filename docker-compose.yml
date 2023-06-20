@@ -26,6 +26,24 @@ services:
       - postgres
     networks:
       - fullstack
+  migrate:
+    image: migrate/migrate:v4.15.2
+    profiles: ["tools"]
+    volumes:
+      - ./migrations:/migrations
+    entrypoint:
+      [
+        "migrate",
+        "-path",
+        "/migrations",
+        "-database",
+        "postgres://postgres:postgres123@postgres:5432/mangastore?sslmode=disable",
+      ]
+    command: ["up"]
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: on-failure
 
 volumes:
   database_dockerizing:
